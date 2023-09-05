@@ -1,15 +1,16 @@
 #include <iostream>
 #include <string>
 #include <vector>
+using namespace std;
 
 class HangmanWord {
 private:
-    std::string secretWord;
-    std::string guessedWord;
+    string secretWord;
+    string guessedWord;
 
 public:
-    HangmanWord(const std::string& word) : secretWord(word) {
-        guessedWord = std::string(secretWord.length(), '_');
+    HangmanWord(const string& word) : secretWord(word) {
+        guessedWord = string(secretWord.length(), '_');
     }
 
     bool guess(char letter) {
@@ -27,7 +28,7 @@ public:
         return secretWord == guessedWord;
     }
 
-    std::string getGuessedWord() const {
+    string getGuessedWord() const {
         return guessedWord;
     }
 };
@@ -35,53 +36,53 @@ public:
 class HangmanFigure {
 public:
     void draw(int incorrectGuesses) {
-        std::vector<std::string> figure = {
+        vector<string> figure = {
     "  ____",
     " |    |",
-    " |    " + std::string(incorrectGuesses > 0 ? "O" : ""),
-    " |   " + std::string(incorrectGuesses > 2 ? "/" : "") + std::string(incorrectGuesses > 1 ? "|" : "") + std::string(incorrectGuesses > 3 ? "\\" : ""),
-    " |   " + std::string(incorrectGuesses > 4 ? "/" : "") + " " + std::string(incorrectGuesses > 5 ? "\\" : ""),
+    " |    " + string(incorrectGuesses > 0 ? "O" : ""),
+    " |   " + string(incorrectGuesses > 2 ? "/" : "") + string(incorrectGuesses > 1 ? "|" : "") + string(incorrectGuesses > 3 ? "\\" : ""),
+    " |   " + string(incorrectGuesses > 4 ? "/" : "") + " " + string(incorrectGuesses > 5 ? "\\" : ""),
     " |",
     "_|___"
 };
 
 
-        for (const std::string& line : figure) {
-            std::cout << line << std::endl;
+        for (const string& line : figure) {
+            cout << line << endl;
         }
     }
 };
 
 int main() {
-    std::string secretWord;
+    string secretWord;
     int maxIncorrectGuesses = 6;
     int incorrectGuesses = 0;
 
-    std::cout << "Enter the secret word: ";
-    std::cin >> secretWord;
+    cout << "Enter the secret word: ";
+    cin >> secretWord;
     HangmanWord gameWord(secretWord);
     HangmanFigure hangmanFigure;
 
     while (incorrectGuesses < maxIncorrectGuesses) {
-        std::cout << "Word: " << gameWord.getGuessedWord() << std::endl;
+        cout << "Word: " << gameWord.getGuessedWord() << endl;
         char guess;
-        std::cout << "Guess a letter: ";
-        std::cin >> guess;
+        cout << "Guess a letter: ";
+        cin >> guess;
 
         if (!gameWord.guess(guess)) {
             ++incorrectGuesses;
-            std::cout << "Incorrect guess. You have " << maxIncorrectGuesses - incorrectGuesses << " tries left." << std::endl;
+            cout << "Incorrect guess. You have " << maxIncorrectGuesses - incorrectGuesses << " tries left." << endl;
             hangmanFigure.draw(incorrectGuesses);
         }
 
         if (gameWord.isWordGuessed()) {
-            std::cout << "Congratulations! You guessed the word: " << secretWord << std::endl;
+            cout << "Congratulations! You guessed the word: " << secretWord << endl;
             break;
         }
     }
 
     if (incorrectGuesses == maxIncorrectGuesses) {
-        std::cout << "You've run out of attempts. The word was: " << secretWord << std::endl;
+        cout << "You've run out of attempts. The word was: " << secretWord << endl;
         hangmanFigure.draw(incorrectGuesses);
     }
 
